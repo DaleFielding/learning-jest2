@@ -10,6 +10,17 @@ function newGame() {
   game.score = 0;
   game.playerMoves = [];
   game.currentGame = [];
+  for (let circle of document.getElementsByClassName('circle')) {
+    if (circle.getAttribute('data-listener') !== 'true') {
+      circle.addEventListener('click', (e) => {
+        let move = e.target.getAttribute('id');
+        lightsOn(move);
+        game.playerMoves.push(move);
+        playerTurn();
+      });
+      circle.setAttribute('data-listener', 'true');
+    }
+  }
   showScore();
   addTurn();
 }
@@ -41,6 +52,7 @@ function showTurns() {
     }
   }, 800)
 }
+
 
 // Curly braces are needed when exporting more than one function from a file.
 module.exports = { game, newGame, showScore, addTurn, lightsOn, showTurns }; 
