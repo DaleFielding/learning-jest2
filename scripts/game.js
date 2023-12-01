@@ -22,7 +22,15 @@ function addTurn() {
 function showScore() {
   document.getElementById('score').innerText = game.score;
 }
+
+function lightsOn(circle) {
+  document.getElementById(circle).classList.add('light');
+  setTimeout(() => {
+    document.getElementById(circle).classList.remove('light');
+  }, 400)
+}
+
 //curly braces are needed when exporting more than one function from a file.
-module.exports = { game, newGame, showScore, addTurn }; 
+module.exports = { game, newGame, showScore, addTurn, lightsOn }; 
 
  
