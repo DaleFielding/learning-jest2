@@ -1,4 +1,4 @@
-const { game, newGame, showScore, addTurn, lightsOn } = require('../game');
+const { game, newGame, showScore, addTurn, lightsOn, showTurns } = require('../game');
 
 beforeAll(() => {
   let fs = require('fs');
@@ -11,18 +11,21 @@ beforeAll(() => {
 describe('game object contains correct keys', () => {
   test("score key exists", () => {
     expect("score" in game).toBe(true);
-  })
+  });
   test("currentGame key exists", () => {
     expect("currentGame" in game).toBe(true);
-  })
+  });
   test("playerMoves key exists", () => {
     expect("playerMoves" in game).toBe(true);
-  })
+  });
   test("choices key exists", () => {
     expect("choices" in game).toBe(true);
-  })
+  });
   test("choices contains the corrects IDs", () => {
     expect(game.choices).toEqual(['button1', 'button2', 'button3', 'button4']);
+  });
+  test("turnNumber key exists", () => {
+    expect("turnNumber" in game).toBe(true);
   });
 });
 
@@ -49,11 +52,17 @@ describe('newGame works correctly', () => {
   });
   test("should be one element in the computer's array", () => {
     expect(game.currentGame.length).toBe(1);
-  })
+  });
   test("should display zero for the element with the ID of score", () => {
     expect(document.getElementById('score').innerText).toEqual(0);
   });
-})
+  test("expect data-listener to be true", () => {
+    const elements = document.getElementsByClassName("circle");
+    for (let element of elements) {
+      expect(element.getAttribute('data-listener')).toEqual('true');
+    }
+  });
+});
 
 describe("gameplay works correctly", () => {
   beforeEach(() => {
@@ -75,5 +84,10 @@ describe("gameplay works correctly", () => {
     let button = document.getElementById(game.currentGame[0]);
     lightsOn(game.currentGame[0]);
     expect(button.classList).toContain('light');
+  });
+  test("showTurns should update game.turnNumber", () => {
+    game.turnNumber = 42;
+    showTurns();
+    expect(game.turnNumber).toBe(0);
   });
 });
