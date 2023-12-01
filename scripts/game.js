@@ -10,12 +10,19 @@ function newGame() {
   game.playerMoves = [];
   game.currentGame = [];
   showScore();
+  addTurn();
+}
+
+function addTurn() {
+  game.playerMoves = [];
+  game.currentGame.push(game.choices[(Math.floor(Math.random() * 4))]);
+  //showTurns();
 }
 
 function showScore() {
   document.getElementById('score').innerText = game.score;
 }
 //curly braces are needed when exporting more than one function from a file.
-module.exports = { game, newGame, showScore }; 
+module.exports = { game, newGame, showScore, addTurn }; 
 
  
