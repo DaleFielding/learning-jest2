@@ -5,6 +5,17 @@ let  game = {
   choices: ['button1', 'button2', 'button3', 'button4'],
 };
 
+function newGame() {
+  game.score = 0;
+  game.playerMoves = [];
+  game.currentGame = [];
+  showScore();
+}
 
+function showScore() {
+  document.getElementById('score').innerText = game.score;
+}
 //curly braces are needed when exporting more than one function from a file.
-module.exports = { game }; 
+module.exports = { game, newGame, showScore }; 
+
+ 
