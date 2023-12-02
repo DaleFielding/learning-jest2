@@ -1,4 +1,7 @@
-const { game, newGame, showScore, addTurn, lightsOn, showTurns } = require('../game');
+const { game, newGame, showScore, addTurn, lightsOn, showTurns, playerTurn } = require('../game');
+
+// displayed this way as alert is actually a method of the window object
+jest.spyOn(window, "alert").mockImplementation(() => {}); 
 
 beforeAll(() => {
   let fs = require('fs');
@@ -68,13 +71,13 @@ describe("gameplay works correctly", () => {
   beforeEach(() => {
     game.score = 0;
     game.currentGame = [];
-    game.playerMoves =[];
+    game.playerMoves = [];
     addTurn();
   });
   afterEach(() => { //resetting the state to allow our tests to run in any order
     game.score = 0;
     game.currentGame = [];
-    game.playerMoves =[];
+    game.playerMoves = [];
   });
   test("addTurn adds a new turn to the game", () => {
     addTurn();
@@ -89,5 +92,15 @@ describe("gameplay works correctly", () => {
     game.turnNumber = 42;
     showTurns();
     expect(game.turnNumber).toBe(0);
+  });
+  test("should increment the score if the turn is correct", () => {
+    game.playerMoves.push(game.currentGame[0]);
+    playerTurn();
+    expect(game.score).toBe(1);
+  });
+  test("should call an alert if the move is wrong", () => {
+    game.playerMoves.push("wrong");
+    playerTurn();
+    expect(window.alert).toBeCalledWith("Wrong move!");
   });
 });
